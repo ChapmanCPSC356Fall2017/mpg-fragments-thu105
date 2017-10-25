@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Gas Cost Calculator</string>
+    <string name="mpg">Gas Mileage (Miles Per Gallon)</string>
+    <string name="ppg">Gas Price (Dollar Per Gallon)</string>
+    <string name="len">Trip Length (Miles)</string>
+    <string name="cost_per_mile">Cost Per Mile:</string>
+    <string name="total_cost">Total Cost:</string>
+    <string name="eco_mode">Eco Mode</string>
+    <string name="dollar">$ %.2f</string>
+    <string name="error_mpg0">Error: miles per gallon cannot be zero.</string>
+</resources>
