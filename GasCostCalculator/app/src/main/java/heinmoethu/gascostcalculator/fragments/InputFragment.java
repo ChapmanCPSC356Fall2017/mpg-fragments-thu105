@@ -15,27 +15,34 @@ import heinmoethu.gascostcalculator.models.InputModel;
 
 /**
  * Created by Hein Moe Thu on 10/19/2017.
+ * Assignemnt: mpg_fragments
+ * Class: CPSC 356
  */
 
 public class InputFragment extends Fragment {
     EditText m,p,l;
     private InputModel input;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.input=new InputModel();
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        input = new InputModel();
         View v = inflater.inflate(R.layout.fragment_input,container,false);
         this.m = v.findViewById(R.id.et_mpg);
         this.p = v.findViewById(R.id.et_ppg);
         this.l = v.findViewById(R.id.et_len);
 
+        try {//this can fail since new InputFragment does not have argument
+            this.input = getArguments().getParcelable("InputModel"); //this will succeed if the call come from orientation change
+            //updating the texts=
+            setViewValues(m, input.getMpg());
+            setViewValues(p, input.getPpg());
+            setViewValues(l, input.getLength());
+        }
+        catch(Exception e){
+            input=new InputModel();
+        }
+
+        //Updating the InputModel as text changes
         this.m.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -99,9 +106,15 @@ public class InputFragment extends Fragment {
                 }
             }
         });
+
         return v;
     }
-    public InputModel getInputModel(){
+    public InputModel getInputModel(){//return the data to activity
         return this.input;
+    }
+    public void setViewValues(EditText v, double d){
+        if (d!=0){//will update values other than 0 (0 is blank)
+            v.setText(String.format(getString(R.string.just_double),d));
+        }
     }
 }

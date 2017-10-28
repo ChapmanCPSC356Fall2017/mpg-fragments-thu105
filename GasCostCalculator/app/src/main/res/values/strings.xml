@@ -7,5 +7,6 @@
     <string name="total_cost">Total Cost:</string>
     <string name="eco_mode">Eco Mode</string>
     <string name="dollar">$ %.2f</string>
-    <string name="error_mpg0">Error: miles per gallon cannot be zero.</string>
+    <string name="just_double">%f</string>
+    <string name="mpg0">$ 0.00</string>
 </resources>

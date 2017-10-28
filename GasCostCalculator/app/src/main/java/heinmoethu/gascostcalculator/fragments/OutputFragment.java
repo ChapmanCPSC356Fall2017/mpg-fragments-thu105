@@ -15,11 +15,14 @@ import heinmoethu.gascostcalculator.models.InputModel;
 
 /**
  * Created by Hein Moe Thu on 10/20/2017.
+ * Assignemnt: mpg_fragments
+ * Class: CPSC 356
  */
 
 public class OutputFragment extends Fragment {
     TextView c, t;
     CheckBox cb;
+    boolean eco;
     InputModel input;
 
     @Nullable
@@ -30,31 +33,37 @@ public class OutputFragment extends Fragment {
         t = v.findViewById(R.id.tv_tc);
         cb = v.findViewById(R.id.cb_eco);
         input=this.getArguments().getParcelable("InputModel");
-        setValues(false);
+        eco=this.getArguments().getBoolean("IsEco");
+        cb.setChecked(eco);
+        setValues();
 
         cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                setValues(b);
+                eco=b;
+                setValues();
             }
         });
 
         return v;
     }
-    public void setValues(Boolean isEco){
+    public void setValues(){//calculates result based on InputModel data
         double mpg = input.getMpg();
-        double cpm;
-        if (isEco){
+        if (eco){//add 5 mpg if eco mode
             mpg+=5;
         }
-        if (mpg!=0){
-            cpm = input.getPpg()/mpg;
+
+        if (mpg!=0){//to avoid division by 0 problem
+            double cpm = input.getPpg()/mpg;
             c.setText(String.format(getString(R.string.dollar), cpm));
             t.setText(String.format(getString(R.string.dollar), cpm*input.getLength()));
         }
         else{
-            c.setText(R.string.error_mpg0);
-            t.setText(R.string.error_mpg0);
+            c.setText(R.string.mpg0);
+            t.setText(R.string.mpg0);
         }
+    }
+    public boolean isEco(){//to pass back data to activity
+        return eco;
     }
 }
