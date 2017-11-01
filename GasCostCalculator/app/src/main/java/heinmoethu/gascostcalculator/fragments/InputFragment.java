@@ -1,5 +1,6 @@
 package heinmoethu.gascostcalculator.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import java.math.BigDecimal;
+
 import heinmoethu.gascostcalculator.R;
+import heinmoethu.gascostcalculator.activities.MainActivity;
 import heinmoethu.gascostcalculator.models.InputModel;
 
 /**
@@ -33,7 +37,7 @@ public class InputFragment extends Fragment {
 
         try {//this can fail since new InputFragment does not have argument
             this.input = getArguments().getParcelable("InputModel"); //this will succeed if the call come from orientation change
-            //updating the texts=
+            //updating the texts
             setViewValues(m, input.getMpg());
             setViewValues(p, input.getPpg());
             setViewValues(l, input.getLength());
@@ -114,7 +118,9 @@ public class InputFragment extends Fragment {
     }
     public void setViewValues(EditText v, double d){
         if (d!=0){//will update values other than 0 (0 is blank)
-            v.setText(String.format(getString(R.string.just_double),d));
+            BigDecimal bd = new BigDecimal(Double.toString(d));
+            v.setText(bd.stripTrailingZeros().toPlainString());//used to rid of trailing zero when orientation change
+            //v.setText(String.format(getString(R.string.just_double),bd.stripTrailingZeros()));
         }
     }
 }
